@@ -17,4 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Testnet faucet integration
 - Typed Pydantic v2 response models
 - Unit tests with mocked responses
+- Golden vector tests verifying BCS output matches the official IOTA TypeScript SDK byte-for-byte (primitives, type tags, object refs, commands, full transaction data, and Ed25519 signatures)
+- End-to-end integration test covering the full transaction lifecycle on testnet (keypair, faucet, transfer, balance verification)
 - Integration tests against IOTA testnet
