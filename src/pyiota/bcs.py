@@ -13,7 +13,7 @@ Reference: https://github.com/zefchain/bcs
 from __future__ import annotations
 
 import struct
-from typing import Sequence
+from collections.abc import Sequence
 
 from pyiota.exceptions import SerializationError
 

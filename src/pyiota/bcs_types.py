@@ -15,12 +15,10 @@ Key references:
 
 from __future__ import annotations
 
-import base64
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import IntEnum
 
 from pyiota.bcs import BcsWriter
-
 
 # -- Address and digest constants --
 
@@ -55,9 +53,7 @@ class Argument:
         w.write_variant_index(self.kind)
         if self.kind == ArgumentKind.GAS_COIN:
             pass  # No additional data
-        elif self.kind == ArgumentKind.INPUT:
-            w.write_u16(self.index)
-        elif self.kind == ArgumentKind.RESULT:
+        elif self.kind == ArgumentKind.INPUT or self.kind == ArgumentKind.RESULT:
             w.write_u16(self.index)
         elif self.kind == ArgumentKind.NESTED_RESULT:
             w.write_u16(self.index)

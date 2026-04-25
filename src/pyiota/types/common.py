@@ -7,9 +7,9 @@ crypto modules.
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel
 
 # IOTA addresses and object IDs are 32 bytes, represented as 0x-prefixed hex
 IOTA_ADDRESS_LENGTH = 32
@@ -19,7 +19,7 @@ OBJECT_DIGEST_LENGTH = 32
 NANOS_PER_IOTA = 1_000_000_000
 
 
-class Network(str, Enum):
+class Network(StrEnum):
     """Known IOTA network endpoints."""
 
     MAINNET = "mainnet"

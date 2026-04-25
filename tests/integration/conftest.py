@@ -6,7 +6,7 @@ Run with: pytest tests/integration/ -m integration
 
 import pytest
 
-from pyiota import IotaClient, SyncIotaClient, Network
+from pyiota import IotaClient, Network, SyncIotaClient
 from pyiota.crypto import Ed25519Keypair
 
 

@@ -26,14 +26,10 @@ from pyiota.types.common import (
 )
 
 __all__ = [
-    "__version__",
-    "get_faucet_url",
-    "get_fullnode_url",
+    "NANOS_PER_IOTA",
     "IotaClient",
     "IotaError",
-    "NANOS_PER_IOTA",
     "Network",
-    "normalize_iota_address",
     "ObjectNotFoundError",
     "RpcError",
     "SerializationError",
@@ -42,4 +38,8 @@ __all__ = [
     "Transaction",
     "TransactionError",
     "TransactionResult",
+    "__version__",
+    "get_faucet_url",
+    "get_fullnode_url",
+    "normalize_iota_address",
 ]

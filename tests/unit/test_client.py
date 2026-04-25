@@ -3,27 +3,24 @@
 import json
 
 import pytest
-import httpx
 
-from pyiota import IotaClient, SyncIotaClient, Network
-from pyiota.exceptions import RpcError, ObjectNotFoundError, TransactionError
+from pyiota import IotaClient, Network, SyncIotaClient
+from pyiota.exceptions import ObjectNotFoundError, RpcError, TransactionError
 from pyiota.types.common import Balance, CoinPage
-from pyiota.types.objects import ObjectData
 from pyiota.types.events import EventPage
+from pyiota.types.objects import ObjectData
 from pyiota.types.transactions import TransactionResponse
-
 from tests.unit.conftest import (
     MOCK_BALANCE_RESPONSE,
     MOCK_COINS_RESPONSE,
-    MOCK_OBJECT_RESPONSE,
-    MOCK_OBJECT_NOT_FOUND_RESPONSE,
-    MOCK_GAS_PRICE_RESPONSE,
-    MOCK_EXECUTE_TX_RESPONSE,
-    MOCK_EXECUTE_TX_FAILURE_RESPONSE,
     MOCK_EVENTS_RESPONSE,
+    MOCK_EXECUTE_TX_FAILURE_RESPONSE,
+    MOCK_EXECUTE_TX_RESPONSE,
+    MOCK_GAS_PRICE_RESPONSE,
+    MOCK_OBJECT_NOT_FOUND_RESPONSE,
+    MOCK_OBJECT_RESPONSE,
     MOCK_RPC_ERROR_RESPONSE,
 )
-
 
 # -- Async client tests --
 

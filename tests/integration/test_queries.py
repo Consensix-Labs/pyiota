@@ -8,9 +8,7 @@ Run with: pytest tests/integration/ -m integration
 
 import pytest
 
-from pyiota import IotaClient, Network
 from pyiota.types.common import Balance, Supply
-
 
 pytestmark = pytest.mark.integration
 

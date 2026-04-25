@@ -5,7 +5,6 @@ import pytest
 from pyiota.types.common import (
     Balance,
     CoinData,
-    CoinPage,
     Network,
     Supply,
     get_faucet_url,

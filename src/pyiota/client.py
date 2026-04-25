@@ -12,11 +12,13 @@ from __future__ import annotations
 
 import asyncio
 import base64
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import httpx
 
-from pyiota.crypto.ed25519 import Ed25519Keypair
+if TYPE_CHECKING:
+    from pyiota.crypto.ed25519 import Ed25519Keypair
+
 from pyiota.exceptions import ObjectNotFoundError, RpcError, TransactionError
 from pyiota.rpc import AsyncRpcTransport
 from pyiota.types.common import (

@@ -2,13 +2,12 @@
 
 import pytest
 
-from pyiota.bcs import BcsReader
 from pyiota.bcs_types import (
     ArgumentKind,
     CallArgKind,
     CommandKind,
-    serialize_pure_u64,
     serialize_pure_address,
+    serialize_pure_u64,
 )
 from pyiota.transaction import Transaction, TransactionResult
 
@@ -37,7 +36,7 @@ class TestTransactionBuilder:
 
     def test_pure_auto_detect_int(self):
         tx = Transaction()
-        arg = tx.pure(42)
+        tx.pure(42)
         # Auto-detected as u64
         assert tx._inputs[0].pure_data == serialize_pure_u64(42)
 

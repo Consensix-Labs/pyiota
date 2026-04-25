@@ -1,6 +1,5 @@
 """Shared fixtures and helpers for unit tests."""
 
-import pytest
 
 
 # Known test vectors for address derivation.

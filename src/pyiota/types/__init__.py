@@ -10,7 +10,13 @@ from pyiota.types.common import (
     Supply,
 )
 from pyiota.types.events import Event, EventFilter, EventPage
-from pyiota.types.objects import ObjectContent, ObjectData, ObjectOwner, ObjectResponse, ObjectsPage
+from pyiota.types.objects import (
+    ObjectContent,
+    ObjectData,
+    ObjectOwner,
+    ObjectResponse,
+    ObjectsPage,
+)
 from pyiota.types.transactions import (
     DevInspectResults,
     DryRunTransactionResponse,
