@@ -1,0 +1,14 @@
+services:
+  test-unit:
+    build: .
+    command: pytest tests/unit/ -v
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+
+  test-integration:
+    build: .
+    command: pytest tests/integration/ -m integration -v
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
