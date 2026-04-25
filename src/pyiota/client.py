@@ -78,11 +78,13 @@ class IotaClient:
     async def get_rpc_api_version(self) -> str:
         """Get the RPC API version of the connected node."""
         result = await self._rpc.request("rpc.discover")
-        return result.get("info", {}).get("version", "unknown")
+        version: str = result.get("info", {}).get("version", "unknown")
+        return version
 
     async def get_chain_identifier(self) -> str:
         """Get the chain identifier (genesis digest)."""
-        return await self._rpc.request("iota_getChainIdentifier")
+        result: str = await self._rpc.request("iota_getChainIdentifier")
+        return result
 
     async def get_reference_gas_price(self) -> int:
         """Get the current reference gas price for transaction budgeting."""
@@ -453,4 +455,5 @@ class IotaClient:
                 headers={"Content-Type": "application/json"},
             )
             response.raise_for_status()
-            return response.json()
+            result: dict[str, Any] = response.json()
+            return result

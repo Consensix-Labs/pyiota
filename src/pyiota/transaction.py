@@ -50,6 +50,7 @@ from pyiota.bcs_types import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from pyiota.client import IotaClient
     from pyiota.crypto.ed25519 import Ed25519Keypair
     from pyiota.sync_client import SyncIotaClient
@@ -470,7 +471,7 @@ class Transaction:
     def _serialize_pure(value: Any, type_hint: str | None) -> bytes:
         """Serialize a Python value to BCS bytes for a pure input."""
         if type_hint is not None:
-            serializers = {
+            serializers: dict[str, Callable[[Any], bytes]] = {
                 "u8": serialize_pure_u8,
                 "u16": serialize_pure_u16,
                 "u32": serialize_pure_u32,
@@ -498,7 +499,7 @@ class Transaction:
                 return serialize_pure_address(value)
             return serialize_pure_string(value)
         if isinstance(value, (bytes, bytearray)):
-            return serialize_pure_bytes(value)
+            return serialize_pure_bytes(bytes(value))
         raise ValueError(f"Cannot auto-serialize type {type(value).__name__}. Use a type hint.")
 
     async def _resolve_gas_payment(

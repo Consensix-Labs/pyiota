@@ -25,10 +25,10 @@ def base58_decode(encoded: str) -> bytes:
 
     # Convert from base58 to integer
     value = 0
-    for ch in encoded.encode("ascii"):
-        if ch not in _ALPHABET_MAP:
-            raise ValueError(f"Invalid Base58 character: {chr(ch)}")
-        value = value * _BASE + _ALPHABET_MAP[ch]
+    for byte in encoded.encode("ascii"):
+        if byte not in _ALPHABET_MAP:
+            raise ValueError(f"Invalid Base58 character: {chr(byte)}")
+        value = value * _BASE + _ALPHABET_MAP[byte]
 
     # Convert integer to bytes
     if value == 0:

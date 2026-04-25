@@ -155,19 +155,19 @@ class BcsReader:
 
     def read_u16(self) -> int:
         self._check(2)
-        val = struct.unpack_from("<H", self._data, self._pos)[0]
+        val: int = struct.unpack_from("<H", self._data, self._pos)[0]
         self._pos += 2
         return val
 
     def read_u32(self) -> int:
         self._check(4)
-        val = struct.unpack_from("<I", self._data, self._pos)[0]
+        val: int = struct.unpack_from("<I", self._data, self._pos)[0]
         self._pos += 4
         return val
 
     def read_u64(self) -> int:
         self._check(8)
-        val = struct.unpack_from("<Q", self._data, self._pos)[0]
+        val: int = struct.unpack_from("<Q", self._data, self._pos)[0]
         self._pos += 8
         return val
 
