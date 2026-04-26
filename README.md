@@ -1,5 +1,7 @@
 # pyiota
 
+[![CI](https://github.com/Consensix-Labs/pyiota/actions/workflows/ci.yml/badge.svg)](https://github.com/Consensix-Labs/pyiota/actions/workflows/ci.yml)
+
 Python SDK for [IOTA Rebased](https://docs.iota.org/) -- the Move-based Layer 1 blockchain.
 
 pyiota provides a developer-friendly Python interface for interacting with IOTA Rebased nodes via JSON-RPC. It supports client-side transaction building with BCS serialization, Ed25519 signing, and typed responses.
