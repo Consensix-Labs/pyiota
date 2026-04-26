@@ -267,7 +267,9 @@ class SyncIotaClient:
         )
 
     def dev_inspect_transaction_block(
-        self, sender: str, tx_bytes: str,
+        self,
+        sender: str,
+        tx_bytes: str,
     ) -> DevInspectResults:
         result = self._rpc.request("iota_devInspectTransactionBlock", [sender, tx_bytes])
         return DevInspectResults(**result)

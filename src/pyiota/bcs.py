@@ -141,9 +141,7 @@ class BcsReader:
 
     def _check(self, n: int) -> None:
         if self._pos + n > len(self._data):
-            raise SerializationError(
-                f"BCS read overflow: need {n} bytes, have {self.remaining}"
-            )
+            raise SerializationError(f"BCS read overflow: need {n} bytes, have {self.remaining}")
 
     # -- Integers --
 

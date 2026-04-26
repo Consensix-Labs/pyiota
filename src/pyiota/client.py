@@ -245,9 +245,7 @@ class IotaClient:
         }
         query["options"] = options
 
-        result = await self._rpc.request(
-            "iotax_getOwnedObjects", [owner, query, cursor, limit]
-        )
+        result = await self._rpc.request("iotax_getOwnedObjects", [owner, query, cursor, limit])
         return ObjectsPage(
             data=[ObjectResponse(**item) for item in result["data"]],
             next_cursor=result.get("nextCursor"),
@@ -341,9 +339,7 @@ class IotaClient:
             sender: The sender address to simulate.
             tx_bytes: Base64-encoded BCS transaction kind bytes.
         """
-        result = await self._rpc.request(
-            "iota_devInspectTransactionBlock", [sender, tx_bytes]
-        )
+        result = await self._rpc.request("iota_devInspectTransactionBlock", [sender, tx_bytes])
         return DevInspectResults(**result)
 
     async def dry_run_transaction_block(
@@ -355,9 +351,7 @@ class IotaClient:
         Args:
             tx_bytes: Base64-encoded BCS-serialized TransactionData.
         """
-        result = await self._rpc.request(
-            "iota_dryRunTransactionBlock", [tx_bytes]
-        )
+        result = await self._rpc.request("iota_dryRunTransactionBlock", [tx_bytes])
         return DryRunTransactionResponse(**result)
 
     async def wait_for_transaction(
@@ -385,9 +379,7 @@ class IotaClient:
         elapsed = 0.0
         while elapsed < timeout:
             try:
-                result = await self._rpc.request(
-                    "iota_getTransactionBlock", [digest, options]
-                )
+                result = await self._rpc.request("iota_getTransactionBlock", [digest, options])
                 return TransactionResponse(**result)
             except RpcError:
                 await asyncio.sleep(poll_interval)

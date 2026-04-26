@@ -91,13 +91,7 @@ class TestBcsWriter:
 
     def test_chaining(self):
         """Writer methods return self for chaining."""
-        result = (
-            BcsWriter()
-            .write_u8(1)
-            .write_u16(2)
-            .write_bool(True)
-            .finish()
-        )
+        result = BcsWriter().write_u8(1).write_u16(2).write_bool(True).finish()
         assert result == b"\x01\x02\x00\x01"
 
 

@@ -55,6 +55,7 @@ def vectors() -> dict[str, str]:
 
 # -- Helpers --
 
+
 def _addr_bytes(hex_pattern: str) -> bytes:
     """Convert a 0x-prefixed hex address to 32 bytes, zero-padded."""
     return bytes.fromhex(hex_pattern.removeprefix("0x").zfill(ADDRESS_LENGTH * 2))
@@ -73,6 +74,7 @@ def _digest_base58(vectors: dict[str, str]) -> str:
 # ============================================================
 # 1. Pure value serialization (raw BCS primitives)
 # ============================================================
+
 
 class TestPureValueVectors:
     """Raw BCS primitive encoding must match the TS SDK exactly."""
@@ -129,6 +131,7 @@ class TestPureValueVectors:
 # 2. ObjectDigest (length-prefixed, not fixed bytes)
 # ============================================================
 
+
 class TestObjectDigestVectors:
     def test_object_digest_length_prefixed(self, vectors):
         """ObjectDigest is BCS bytes (ULEB128 length prefix + 32 raw bytes)."""
@@ -142,6 +145,7 @@ class TestObjectDigestVectors:
 # ============================================================
 # 3. IotaObjectRef (BcsObjectRef in our code)
 # ============================================================
+
 
 class TestObjectRefVectors:
     def test_iota_object_ref(self, vectors):
@@ -157,6 +161,7 @@ class TestObjectRefVectors:
 # ============================================================
 # 4. SharedObjectRef
 # ============================================================
+
 
 class TestSharedObjectRefVectors:
     def test_shared_mutable(self, vectors):
@@ -179,6 +184,7 @@ class TestSharedObjectRefVectors:
 # ============================================================
 # 5. Argument variants
 # ============================================================
+
 
 class TestArgumentVectors:
     def test_gas_coin(self, vectors):
@@ -209,6 +215,7 @@ class TestArgumentVectors:
 # ============================================================
 # 6. CallArg variants
 # ============================================================
+
 
 class TestCallArgVectors:
     def test_pure_u64(self, vectors):
@@ -261,22 +268,26 @@ class TestCallArgVectors:
 # 7. TypeTag serialization
 # ============================================================
 
+
 class TestTypeTagVectors:
     """TypeTag variant indices follow the IOTA BCS schema order, which
     differs from numeric order: bool=0, u8=1, u64=2, u128=3, address=4,
     signer=5, vector=6, struct=7, u16=8, u32=9, u256=10."""
 
-    @pytest.mark.parametrize("type_str,key", [
-        ("bool", "type_tag_bool"),
-        ("u8", "type_tag_u8"),
-        ("u16", "type_tag_u16"),
-        ("u32", "type_tag_u32"),
-        ("u64", "type_tag_u64"),
-        ("u128", "type_tag_u128"),
-        ("u256", "type_tag_u256"),
-        ("address", "type_tag_address"),
-        ("signer", "type_tag_signer"),
-    ])
+    @pytest.mark.parametrize(
+        "type_str,key",
+        [
+            ("bool", "type_tag_bool"),
+            ("u8", "type_tag_u8"),
+            ("u16", "type_tag_u16"),
+            ("u32", "type_tag_u32"),
+            ("u64", "type_tag_u64"),
+            ("u128", "type_tag_u128"),
+            ("u256", "type_tag_u256"),
+            ("address", "type_tag_address"),
+            ("signer", "type_tag_signer"),
+        ],
+    )
     def test_primitive_types(self, vectors, type_str, key):
         assert _serialize_type_tag(type_str).hex() == vectors[key]
 
@@ -306,6 +317,7 @@ class TestTypeTagVectors:
 # ============================================================
 # 8. Command variants
 # ============================================================
+
 
 class TestCommandVectors:
     def test_split_coins(self, vectors):
@@ -353,6 +365,7 @@ class TestCommandVectors:
 # 9. ProgrammableTransaction
 # ============================================================
 
+
 class TestProgrammableTransactionVectors:
     def test_split_and_transfer(self, vectors):
         """A typical PTB: split 1 IOTA from gas, transfer to recipient."""
@@ -385,6 +398,7 @@ class TestProgrammableTransactionVectors:
 # 10. Full TransactionData
 # ============================================================
 
+
 def _build_test_tx_data(*, expiration_epoch: int | None = None) -> TransactionData:
     """Build the canonical test transaction used across golden vector tests."""
     sender = _addr_bytes("0x" + "cc" * 32)
@@ -410,11 +424,13 @@ def _build_test_tx_data(*, expiration_epoch: int | None = None) -> TransactionDa
     )
 
     gas = GasPayment(
-        payment=[BcsObjectRef(
-            object_id=_addr_bytes("0x" + "ee" * 32),
-            version=10,
-            digest=digest,
-        )],
+        payment=[
+            BcsObjectRef(
+                object_id=_addr_bytes("0x" + "ee" * 32),
+                version=10,
+                digest=digest,
+            )
+        ],
         owner=sender,
         price=1000,
         budget=50_000_000,
@@ -444,10 +460,12 @@ class TestTransactionDataVectors:
 # 11. Intent message
 # ============================================================
 
+
 class TestIntentMessageVectors:
     def test_intent_prefix(self, vectors):
         """Intent prefix for transaction signing is [0, 0, 0]."""
         from pyiota.crypto.signature import TRANSACTION_DATA_INTENT
+
         assert TRANSACTION_DATA_INTENT.hex() == vectors["intent_message_prefix"]
 
     def test_intent_message_construction(self, vectors):
@@ -467,6 +485,7 @@ class TestIntentMessageVectors:
 # 12. Ed25519 keypair and signature (deterministic seed)
 # ============================================================
 
+
 class TestSignatureVectors:
     """Verify our Ed25519 signing matches the TS SDK for a known keypair.
 
@@ -476,11 +495,13 @@ class TestSignatureVectors:
 
     def test_public_key(self, vectors):
         from pyiota.crypto.ed25519 import Ed25519Keypair
+
         kp = Ed25519Keypair.from_secret_key(bytes(range(32)))
         assert kp.public_key.hex() == vectors["ed25519_public_key"]
 
     def test_address_derivation(self, vectors):
         from pyiota.crypto.ed25519 import Ed25519Keypair
+
         kp = Ed25519Keypair.from_secret_key(bytes(range(32)))
         assert kp.address == vectors["ed25519_address"]
 

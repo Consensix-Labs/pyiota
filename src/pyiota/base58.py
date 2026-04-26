@@ -18,7 +18,7 @@ def base58_decode(encoded: str) -> bytes:
     # Count leading '1' characters (they represent leading zero bytes)
     leading_zeros = 0
     for ch in encoded:
-        if ch == '1':
+        if ch == "1":
             leading_zeros += 1
         else:
             break
@@ -59,7 +59,7 @@ def base58_encode(data: bytes) -> str:
     chars = []
     while value > 0:
         value, remainder = divmod(value, _BASE)
-        chars.append(_ALPHABET[remainder:remainder + 1])
+        chars.append(_ALPHABET[remainder : remainder + 1])
     chars.reverse()
 
     return "1" * leading_zeros + b"".join(chars).decode("ascii")

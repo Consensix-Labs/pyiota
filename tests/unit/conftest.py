@@ -1,7 +1,5 @@
 """Shared fixtures and helpers for unit tests."""
 
-
-
 # Known test vectors for address derivation.
 # Generated from a deterministic Ed25519 seed for reproducibility.
 TEST_SECRET_KEY = bytes(range(32))  # 0x00..0x1f -- deterministic seed for testing

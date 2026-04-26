@@ -28,8 +28,10 @@ DIGEST_LENGTH = 32
 
 # -- Argument types (references to inputs/results within a PTB) --
 
+
 class ArgumentKind(IntEnum):
     """BCS variant index for the Argument enum."""
+
     GAS_COIN = 0
     INPUT = 1
     RESULT = 2
@@ -42,6 +44,7 @@ class Argument:
 
     Used as arguments to transaction commands (MoveCall, TransferObjects, etc.).
     """
+
     kind: ArgumentKind
     # For INPUT and RESULT: the index
     index: int = 0
@@ -79,14 +82,17 @@ def nested_result_arg(index: int, nested: int) -> Argument:
 
 # -- CallArg types (transaction inputs) --
 
+
 class CallArgKind(IntEnum):
     """BCS variant index for the CallArg enum."""
+
     PURE = 0
     OBJECT = 1
 
 
 class ObjectArgKind(IntEnum):
     """BCS variant index for the ObjectArg enum."""
+
     IMM_OR_OWNED_OBJECT = 0
     SHARED_OBJECT = 1
     RECEIVING = 2
@@ -100,6 +106,7 @@ class BcsObjectRef:
     ObjectDigest is serialized as a length-prefixed byte vector in BCS, not as
     fixed 32 bytes -- it wraps Digest which uses BCS bytes serialization.
     """
+
     object_id: bytes  # 32 bytes
     version: int  # u64
     digest: bytes  # 32 bytes, but BCS-serialized as length-prefixed
@@ -119,6 +126,7 @@ class BcsObjectRef:
 @dataclass
 class SharedObjectRef:
     """Reference to a shared object, including the version at which it became shared."""
+
     object_id: bytes  # 32 bytes
     initial_shared_version: int  # u64
     mutable: bool
@@ -134,6 +142,7 @@ class SharedObjectRef:
 @dataclass
 class CallArg:
     """An input to a Programmable Transaction Block."""
+
     kind: CallArgKind
     # For PURE: the BCS-serialized value
     pure_data: bytes = b""
@@ -163,8 +172,10 @@ class CallArg:
 
 # -- Command types (operations within a PTB) --
 
+
 class CommandKind(IntEnum):
     """BCS variant index for the Command enum."""
+
     MOVE_CALL = 0
     TRANSFER_OBJECTS = 1
     SPLIT_COINS = 2
@@ -177,6 +188,7 @@ class CommandKind(IntEnum):
 @dataclass
 class ProgrammableMoveCall:
     """A Move function call within a PTB."""
+
     package: bytes  # 32-byte package ID
     module: str
     function: str
@@ -187,6 +199,7 @@ class ProgrammableMoveCall:
 @dataclass
 class Command:
     """A single command in a Programmable Transaction Block."""
+
     kind: CommandKind
     # Fields vary by kind
     move_call: ProgrammableMoveCall | None = None
@@ -263,6 +276,7 @@ class Command:
 # Move type tags are complex (struct types with generics). For v0.1, we support
 # the common cases needed for MoveCall type arguments.
 
+
 class TypeTagKind(IntEnum):
     BOOL = 0
     U8 = 1
@@ -324,12 +338,12 @@ def _serialize_struct_tag(type_str: str) -> bytes:
     depth = 0
     split_pos = -1
     for i, ch in enumerate(type_str):
-        if ch == '<' and depth == 0:
+        if ch == "<" and depth == 0:
             split_pos = i
             break
-        if ch == '<':
+        if ch == "<":
             depth += 1
-        elif ch == '>':
+        elif ch == ">":
             depth -= 1
 
     if split_pos >= 0:
@@ -366,13 +380,13 @@ def _split_type_params(params_str: str) -> list[str]:
     depth = 0
     current = ""
     for ch in params_str:
-        if ch == '<':
+        if ch == "<":
             depth += 1
             current += ch
-        elif ch == '>':
+        elif ch == ">":
             depth -= 1
             current += ch
-        elif ch == ',' and depth == 0:
+        elif ch == "," and depth == 0:
             params.append(current.strip())
             current = ""
         else:
@@ -384,8 +398,10 @@ def _split_type_params(params_str: str) -> list[str]:
 
 # -- Transaction data envelope --
 
+
 class TransactionExpiration(IntEnum):
     """BCS variant for transaction expiration."""
+
     NONE = 0
     EPOCH = 1
 
@@ -396,6 +412,7 @@ class GasPayment:
 
     Rust struct field order (which BCS follows): payment, owner, price, budget.
     """
+
     payment: list[BcsObjectRef]  # Coin objects to pay gas from
     owner: bytes  # 32-byte sender address
     price: int  # Gas price (u64)
@@ -419,6 +436,7 @@ class GasPayment:
 @dataclass
 class ProgrammableTransaction:
     """A Programmable Transaction Block: inputs + commands."""
+
     inputs: list[CallArg]
     commands: list[Command]
 
@@ -435,6 +453,7 @@ class ProgrammableTransaction:
 
 class TransactionKindVariant(IntEnum):
     """BCS variant for TransactionKind."""
+
     PROGRAMMABLE_TRANSACTION = 0
     # Other variants (ChangeEpoch, Genesis, ConsensusCommitPrologue) are system-only
 
@@ -455,6 +474,7 @@ class TransactionData:
     Field order must match Rust's TransactionDataV1:
         kind, sender, gas_data, expiration
     """
+
     kind: ProgrammableTransaction
     sender: bytes  # 32-byte sender address
     gas: GasPayment
@@ -483,34 +503,44 @@ class TransactionData:
 
 # -- Pure value serialization helpers --
 
+
 def serialize_pure_u8(value: int) -> bytes:
     return BcsWriter().write_u8(value).finish()
+
 
 def serialize_pure_u16(value: int) -> bytes:
     return BcsWriter().write_u16(value).finish()
 
+
 def serialize_pure_u32(value: int) -> bytes:
     return BcsWriter().write_u32(value).finish()
+
 
 def serialize_pure_u64(value: int) -> bytes:
     return BcsWriter().write_u64(value).finish()
 
+
 def serialize_pure_u128(value: int) -> bytes:
     return BcsWriter().write_u128(value).finish()
+
 
 def serialize_pure_u256(value: int) -> bytes:
     return BcsWriter().write_u256(value).finish()
 
+
 def serialize_pure_bool(value: bool) -> bytes:
     return BcsWriter().write_bool(value).finish()
 
+
 def serialize_pure_string(value: str) -> bytes:
     return BcsWriter().write_str(value).finish()
+
 
 def serialize_pure_address(address: str) -> bytes:
     """Serialize an IOTA address (0x-prefixed hex) as a 32-byte pure value."""
     addr_hex = address.lower().removeprefix("0x").zfill(ADDRESS_LENGTH * 2)
     return bytes.fromhex(addr_hex)
+
 
 def serialize_pure_bytes(data: bytes) -> bytes:
     return BcsWriter().write_bytes(data).finish()

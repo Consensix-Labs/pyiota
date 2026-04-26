@@ -77,6 +77,7 @@ class TransactionResult:
     def __getitem__(self, nested_index: int) -> Argument:
         """Access a specific result from a multi-result command."""
         from pyiota.bcs_types import nested_result_arg
+
         return nested_result_arg(self._index, nested_index)
 
 
@@ -175,11 +176,13 @@ class Transaction:
                 initial_shared_version=initial_shared_version,
                 mutable=mutable,
             )
-            return self._add_input(CallArg(
-                kind=CallArgKind.OBJECT,
-                object_kind=ObjectArgKind.SHARED_OBJECT,
-                shared_ref=shared_ref,
-            ))
+            return self._add_input(
+                CallArg(
+                    kind=CallArgKind.OBJECT,
+                    object_kind=ObjectArgKind.SHARED_OBJECT,
+                    shared_ref=shared_ref,
+                )
+            )
         elif version is not None and digest is not None:
             # Immutable or owned object with known version
             obj_bytes = bytes.fromhex(
@@ -192,11 +195,13 @@ class Transaction:
                 version=version,
                 digest=digest_bytes,
             )
-            return self._add_input(CallArg(
-                kind=CallArgKind.OBJECT,
-                object_kind=ObjectArgKind.IMM_OR_OWNED_OBJECT,
-                object_ref=obj_ref,
-            ))
+            return self._add_input(
+                CallArg(
+                    kind=CallArgKind.OBJECT,
+                    object_kind=ObjectArgKind.IMM_OR_OWNED_OBJECT,
+                    object_ref=obj_ref,
+                )
+            )
         else:
             raise ValueError(
                 f"Object reference for {object_id} requires version and digest. "
@@ -225,11 +230,13 @@ class Transaction:
             recipient_arg = self._resolve_argument(recipient)
 
         cmd_index = len(self._commands)
-        self._commands.append(Command(
-            kind=CommandKind.TRANSFER_OBJECTS,
-            transfer_objects=resolved_objects,
-            transfer_recipient=recipient_arg,
-        ))
+        self._commands.append(
+            Command(
+                kind=CommandKind.TRANSFER_OBJECTS,
+                transfer_objects=resolved_objects,
+                transfer_recipient=recipient_arg,
+            )
+        )
         return TransactionResult(cmd_index)
 
     def split_coins(
@@ -256,11 +263,13 @@ class Transaction:
                 amount_args.append(self._resolve_argument(amount))
 
         cmd_index = len(self._commands)
-        self._commands.append(Command(
-            kind=CommandKind.SPLIT_COINS,
-            split_coin=coin_arg,
-            split_amounts=amount_args,
-        ))
+        self._commands.append(
+            Command(
+                kind=CommandKind.SPLIT_COINS,
+                split_coin=coin_arg,
+                split_amounts=amount_args,
+            )
+        )
         return TransactionResult(cmd_index)
 
     def merge_coins(
@@ -278,11 +287,13 @@ class Transaction:
         source_args = [self._resolve_argument(src) for src in sources]
 
         cmd_index = len(self._commands)
-        self._commands.append(Command(
-            kind=CommandKind.MERGE_COINS,
-            merge_destination=dest_arg,
-            merge_sources=source_args,
-        ))
+        self._commands.append(
+            Command(
+                kind=CommandKind.MERGE_COINS,
+                merge_destination=dest_arg,
+                merge_sources=source_args,
+            )
+        )
         return TransactionResult(cmd_index)
 
     def move_call(
@@ -303,8 +314,7 @@ class Transaction:
         parts = target.split("::")
         if len(parts) != 3:
             raise ValueError(
-                f"Invalid target format: {target}. "
-                "Expected 'package_id::module::function'"
+                f"Invalid target format: {target}. Expected 'package_id::module::function'"
             )
         package_str, module, function = parts
 
@@ -312,21 +322,21 @@ class Transaction:
             package_str.lower().removeprefix("0x").zfill(ADDRESS_LENGTH * 2)
         )
 
-        resolved_args = [
-            self._resolve_argument(arg) for arg in (arguments or [])
-        ]
+        resolved_args = [self._resolve_argument(arg) for arg in (arguments or [])]
 
         cmd_index = len(self._commands)
-        self._commands.append(Command(
-            kind=CommandKind.MOVE_CALL,
-            move_call=ProgrammableMoveCall(
-                package=package_bytes,
-                module=module,
-                function=function,
-                type_arguments=type_arguments or [],
-                arguments=resolved_args,
-            ),
-        ))
+        self._commands.append(
+            Command(
+                kind=CommandKind.MOVE_CALL,
+                move_call=ProgrammableMoveCall(
+                    package=package_bytes,
+                    module=module,
+                    function=function,
+                    type_arguments=type_arguments or [],
+                    arguments=resolved_args,
+                ),
+            )
+        )
         return TransactionResult(cmd_index)
 
     # -- Configuration --
@@ -379,9 +389,7 @@ class Transaction:
         if sender is None:
             raise ValueError("Sender address required. Call set_sender() or provide a signer.")
 
-        sender_bytes = bytes.fromhex(
-            sender.lower().removeprefix("0x").zfill(ADDRESS_LENGTH * 2)
-        )
+        sender_bytes = bytes.fromhex(sender.lower().removeprefix("0x").zfill(ADDRESS_LENGTH * 2))
 
         # Resolve gas price from the network if not set
         gas_price = self._gas_price
@@ -429,9 +437,7 @@ class Transaction:
         if sender is None:
             raise ValueError("Sender address required. Call set_sender() or provide a signer.")
 
-        sender_bytes = bytes.fromhex(
-            sender.lower().removeprefix("0x").zfill(ADDRESS_LENGTH * 2)
-        )
+        sender_bytes = bytes.fromhex(sender.lower().removeprefix("0x").zfill(ADDRESS_LENGTH * 2))
 
         gas_price = self._gas_price
         if gas_price is None:
@@ -503,9 +509,7 @@ class Transaction:
             return serialize_pure_bytes(bytes(value))
         raise ValueError(f"Cannot auto-serialize type {type(value).__name__}. Use a type hint.")
 
-    async def _resolve_gas_payment(
-        self, client: IotaClient, sender: str
-    ) -> list[BcsObjectRef]:
+    async def _resolve_gas_payment(self, client: IotaClient, sender: str) -> list[BcsObjectRef]:
         """Resolve gas payment coins from the chain."""
         if self._gas_payment is not None:
             return [
@@ -537,9 +541,7 @@ class Transaction:
             )
         ]
 
-    def _resolve_gas_payment_sync(
-        self, client: SyncIotaClient, sender: str
-    ) -> list[BcsObjectRef]:
+    def _resolve_gas_payment_sync(self, client: SyncIotaClient, sender: str) -> list[BcsObjectRef]:
         """Synchronous version of _resolve_gas_payment."""
         if self._gas_payment is not None:
             return [

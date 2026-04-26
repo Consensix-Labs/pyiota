@@ -24,6 +24,7 @@ from tests.unit.conftest import (
 
 # -- Async client tests --
 
+
 class TestIotaClientAsync:
     @pytest.fixture
     def mock_client(self, httpx_mock):
@@ -136,6 +137,7 @@ class TestIotaClientAsync:
 
 
 # -- Sync client tests --
+
 
 class TestSyncIotaClient:
     @pytest.fixture

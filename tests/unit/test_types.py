@@ -104,9 +104,7 @@ class TestTransactionEffects:
         assert effects.error_message is None
 
     def test_is_failure(self):
-        effects = TransactionEffects(
-            status={"status": "failure", "error": "InsufficientGas"}
-        )
+        effects = TransactionEffects(status={"status": "failure", "error": "InsufficientGas"})
         assert effects.is_success is False
         assert effects.error_message == "InsufficientGas"
 

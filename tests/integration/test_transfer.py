@@ -52,9 +52,7 @@ async def test_full_transfer_lifecycle(client: IotaClient):
     # Verify transaction succeeded
     assert result.digest is not None
     assert result.effects is not None
-    assert result.effects.is_success, (
-        f"Transaction failed: {result.effects.error_message}"
-    )
+    assert result.effects.is_success, f"Transaction failed: {result.effects.error_message}"
 
     # Verify recipient received funds
     recipient_balance = await client.get_balance(owner=recipient.address)
