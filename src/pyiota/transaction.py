@@ -51,6 +51,7 @@ from pyiota.bcs_types import (
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
     from pyiota.client import IotaClient
     from pyiota.crypto.ed25519 import Ed25519Keypair
     from pyiota.sync_client import SyncIotaClient
