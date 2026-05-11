@@ -21,14 +21,14 @@ pyiota provides a developer-friendly Python interface for interacting with IOTA 
 ## Installation
 
 ```bash
-pip install pyiota
+pip install iota-rebased
 ```
 
 Optional extras:
 
 ```bash
-pip install pyiota[secp256k1]   # Secp256k1 signing support
-pip install pyiota[mnemonic]    # BIP-39 mnemonic key derivation
+pip install iota-rebased[secp256k1]   # Secp256k1 signing support
+pip install iota-rebased[mnemonic]    # BIP-39 mnemonic key derivation
 ```
 
 Requires Python 3.12+.
