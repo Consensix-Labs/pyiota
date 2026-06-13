@@ -58,7 +58,7 @@ target-version = "py312"
 line-length = 99
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I", "UP", "B", "SIM", "TCH", "RUF"]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "TC", "RUF"]
 ignore = [
     "SIM108", # Ignore ternary operator suggestions for readability
     "TC003",  # Ignore stdlib type-checking imports
