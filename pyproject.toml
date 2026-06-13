@@ -41,7 +41,7 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Consensix-Labs/pyiota"
+Homepage = "https://consensixlabs.com/projects/pyiota/"
 Documentation = "https://github.com/Consensix-Labs/pyiota#readme"
 Repository = "https://github.com/Consensix-Labs/pyiota"
 Issues = "https://github.com/Consensix-Labs/pyiota/issues"
