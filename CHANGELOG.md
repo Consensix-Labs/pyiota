@@ -5,6 +5,19 @@ All notable changes to pyiota will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-10-10
+
+### Fixed
+
+- Installation instructions on the PyPI project page referred to `pyiota`, an unrelated package; the correct package name is `iota-rebased`
+- LICENSE link in the README, which was broken when rendered on PyPI
+
+### Changed
+
+- README notes the distinction between the package name (`iota-rebased`) and the import name (`pyiota`)
+- Install commands with extras are quoted so they work in zsh
+- Project homepage points to https://consensixlabs.com/projects/pyiota/
+
 ## [0.1.0] - 2026-04-26
 
 ### Added

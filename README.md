@@ -6,7 +6,7 @@ Python SDK for [IOTA Rebased](https://docs.iota.org/) -- the Move-based Layer 1 
 
 pyiota provides a developer-friendly Python interface for interacting with IOTA Rebased nodes via JSON-RPC. It supports client-side transaction building with BCS serialization, Ed25519 signing, and typed responses.
 
-**Status:** Alpha (v0.1.0) -- API may change before 1.0.
+**Status:** Alpha -- API may change before 1.0.
 
 ## Features
 
@@ -27,11 +27,15 @@ pip install iota-rebased
 Optional extras:
 
 ```bash
-pip install iota-rebased[secp256k1]   # Secp256k1 signing support
-pip install iota-rebased[mnemonic]    # BIP-39 mnemonic key derivation
+pip install "iota-rebased[secp256k1]"   # Secp256k1 signing support
+pip install "iota-rebased[mnemonic]"    # BIP-39 mnemonic key derivation
 ```
 
 Requires Python 3.12+.
+
+> **Note:** The PyPI package is `iota-rebased`; the import name is `pyiota`.
+> The separate `pyiota` package on PyPI is unrelated and installs a conflicting
+> `pyiota` module.
 
 ## Quick Start
 
@@ -159,7 +163,7 @@ docker compose run --rm test-integration
 
 ## License
 
-MIT -- see [LICENSE](LICENSE).
+MIT -- see [LICENSE](https://github.com/Consensix-Labs/pyiota/blob/main/LICENSE).
 
 ## Links
 
